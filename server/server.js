@@ -14,8 +14,16 @@ app.use(express.static(publicPath));
 io.on('connection',(socket) => {
    console.log('new user connected');
 
-
-
+    socket.emit('newMessage', {
+        from: 'zura',
+        text: 'hi there Socket.emit',
+        createAt: new Date().getTime()
+    });
+    socket.broadcast.emit('newMessage', {
+        from: 'zura',
+        text: 'hi there broadcast',
+        createAt: new Date().getTime()
+    });
    socket.on('createMessage', (message) => {
       console.log('createMessage ', message);
        io.emit('newMessage', {
@@ -23,6 +31,11 @@ io.on('connection',(socket) => {
            text: message.text,
            createAt: new Date().getTime()
        });
+       // socket.broadcast.emit('newMessage', {
+       //     from: message.from,
+       //     text: message.text,
+       //     createAt: new Date().getTime()
+       // });
    });
     socket.on('disconnect',() => {
         console.log('User was disconnected');
