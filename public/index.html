@@ -4,15 +4,26 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../css/style.css">
     </head>
-    <body>
-        <p>new app</p>
-        <ol id="messages"></ol>
-        <form id="message-form">
-            <input name="message" type="text" placeholder="Message"/>
-            <button>Send</button>
-        </form>
+    <body class="chat">
+
+        <div class="chat__sidebar">
+            <h3>People</h3>
+            <div id="users"></div>
+        </div>
+
+        <div class="chat__main">
+
+            <ol id="messages" class="chat__messages"></ol>
+            <div class="chat__footer">
+                <form id="message-form">
+                    <input name="message" type="text" placeholder="Message" autocomplete autofocus/>
+                    <button>Send</button>
+                </form>
+                <button id="send-location">geo location</button>
+            </div>
+        </div>
+
         <!--<hr>-->
-        <button id="send-location">geo location</button>
 
         <script src="/socket.io/socket.io.js"> </script>
 

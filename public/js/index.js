@@ -26,13 +26,14 @@ socket.on('newLocationMessage', function (message) {
 
 });
 
+let messageTextBox = $('[name=message]');
 $('#message-form').on('submit', function (e) {
     e.preventDefault();
     socket.emit('createMessage', {
         from: 'User',
-        text: $('[name=message]').val()
+        text: messageTextBox.val()
     }, function () {
-        
+        messageTextBox.val('')
     });
 });
 
@@ -41,12 +42,17 @@ locationButton.on('click', function () {
   if(!navigator.geolocation){
       return alert('geolocations not found by your browser');
   }
+  // ლოკაციის დაბლოკვა
+  locationButton.attr('disabled', 'disabled').text('Send location...');
+
   navigator.geolocation.getCurrentPosition(function (position) {
+      locationButton.removeAttr('disabled').text('Send location');
       socket.emit('createLocationMessage', {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
       });
   }, function () {
+      locationButton.removeAttr('disabled').text('Send location');
       alert('Unable to fetch location');
   });
 });
