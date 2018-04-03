@@ -4,6 +4,8 @@ const socketIO = require('socket.io');
 const http = require('http');
 
 const {generateMessage, generateLocationMessage} = require('./utils/message');
+const {isRealString} = require('./utils/validation');
+
 const publicPath = path.join(__dirname,'../public');
 const port = process.env.PORT || 3000;
 let app = express();
@@ -35,6 +37,12 @@ io.on('connection',(socket) => {
 
     socket.on('disconnect',() => {
         console.log('User was disconnected');
+    });
+
+    socket.on('join', (params, callback) => {
+        if(isRealString(params.name) || isRealString(params.room)){
+            callback('name and room name are required.')
+        }
     });
 });
 
