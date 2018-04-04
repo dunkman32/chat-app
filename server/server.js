@@ -31,10 +31,9 @@ io.on('connection',(socket) => {
    socket.on('createLocationMessage', function (coords) {
        let user = users.getUser(socket.id);
 
-       if(user && isRealString(message.text)){
-           io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name,coords.latitude,coords.longitude));
+       if(user) {
+           io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
        }
-       callback();
    });
 
     socket.on('disconnect',() => {
